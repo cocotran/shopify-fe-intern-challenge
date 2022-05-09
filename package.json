@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/cocotran/shopify-fe-intern-challenge#readme",
   "devDependencies": {
+    "@types/node": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
