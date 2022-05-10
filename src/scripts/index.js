@@ -36,22 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 // ============= Constants, helpers =================
-var BASE_URL = "";
+var BASE_URL = "https://api.openai.com/v1/engines/";
 function htmlToElement(htmlString) {
     var template = document.createElement("template");
     htmlString = htmlString.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = htmlString;
     return template.content.firstChild;
 }
-var sendRequest = function (data) { return __awaiter(_this, void 0, void 0, function () {
+var getFullUrl = function (engine) {
+    return BASE_URL + engine + "/completions";
+};
+var sendRequest = function (engine, data) { return __awaiter(_this, void 0, void 0, function () {
     var res;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch(BASE_URL, {
+            case 0: return [4 /*yield*/, fetch(getFullUrl(engine), {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer ".concat(process.env.SECRET)
+                        Authorization: "Bearer"
                     },
                     body: JSON.stringify(data)
                 })];
@@ -61,24 +64,48 @@ var sendRequest = function (data) { return __awaiter(_this, void 0, void 0, func
         }
     });
 }); };
+var getResponseText = function (choices) {
+    var response = "";
+    choices.forEach(function (element) {
+        response += element.text;
+    });
+    return response;
+};
 // ============= Application state =================
 var results = [];
 // ============= State functions =================
 // ============= DOM node references =================
 var responseContainer = document.getElementById("responseContainer");
 var submitBtn = document.getElementById("submitBtn");
+var maxTokens = document.getElementById("maxTokens");
+var temperature = document.getElementById("temperature");
+var top_p = document.getElementById("top_p");
+var promptInput = document.getElementById("promptInput");
 // ============= DOM update functions =================
 var displayNewResult = function (prompt, response) {
     var newResult = "\n        <div style=\"border: 1px solid blue\">\n            <h5>".concat(prompt, "</h5>\n            <p>\n                ").concat(response, "\n            </p>\n        </div>\n    ");
     if (htmlToElement(newResult))
-        responseContainer === null || responseContainer === void 0 ? void 0 : responseContainer.appendChild(htmlToElement(newResult));
+        responseContainer === null || responseContainer === void 0 ? void 0 : responseContainer.insertBefore(htmlToElement(newResult), responseContainer.firstChild);
 };
 // ============= Event handlers =================
 var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function () {
+    var data, result;
     return __generator(this, function (_a) {
-        console.log("Here");
-        displayNewResult("test prompt", "testtttt response");
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                data = {
+                    "prompt": promptInput === null || promptInput === void 0 ? void 0 : promptInput.value,
+                    "max_tokens": parseInt(maxTokens === null || maxTokens === void 0 ? void 0 : maxTokens.value),
+                    "temperature": parseInt(temperature === null || temperature === void 0 ? void 0 : temperature.value),
+                    "top_p": parseInt(top_p === null || top_p === void 0 ? void 0 : top_p.value)
+                };
+                return [4 /*yield*/, sendRequest("text-curie-001", data)];
+            case 1:
+                result = _a.sent();
+                console.log(result);
+                displayNewResult(promptInput === null || promptInput === void 0 ? void 0 : promptInput.value, getResponseText(result.choices));
+                return [2 /*return*/];
+        }
     });
 }); };
 // ============= Event handler bindings =================

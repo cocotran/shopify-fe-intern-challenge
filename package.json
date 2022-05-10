@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
-    "lint": "prettier --write src"
+    "lint": "prettier --write src/scripts/index.ts src/index.html src/styles/"
   },
   "repository": {
     "type": "git",
