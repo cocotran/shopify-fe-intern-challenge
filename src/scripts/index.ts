@@ -15,8 +15,8 @@ function htmlToElement(htmlString: string): ChildNode | null {
 }
 
 const getFullUrl = (engine: string): string => {
-    return BASE_URL + engine + "/completions";
-}
+  return BASE_URL + engine + "/completions";
+};
 
 const sendRequest = async (engine: string, data: any) => {
   const res = await fetch(getFullUrl(engine), {
@@ -31,12 +31,12 @@ const sendRequest = async (engine: string, data: any) => {
 };
 
 const getResponseText = (choices: any): string => {
-    let response = "";
-    choices.forEach((element: any) => {
-        response += element.text;
-    });
-    return response;
-}
+  let response = "";
+  choices.forEach((element: any) => {
+    response += element.text;
+  });
+  return response;
+};
 
 // ============= Application state =================
 const results: Result[] = [];
@@ -62,17 +62,20 @@ const displayNewResult = (prompt: string, response: string) => {
         </div>
     `;
   if (htmlToElement(newResult))
-    responseContainer?.insertBefore((htmlToElement(newResult) as ChildNode), responseContainer.firstChild);
+    responseContainer?.insertBefore(
+      htmlToElement(newResult) as ChildNode,
+      responseContainer.firstChild
+    );
 };
 
 // ============= Event handlers =================
 const onSubmitBtn = async () => {
   const data = {
-    "prompt": promptInput?.value,
-    "max_tokens": parseInt(maxTokens?.value),
-    "temperature": parseInt(temperature?.value),
-    "top_p": parseInt(top_p?.value),
-  }
+    prompt: promptInput?.value,
+    max_tokens: parseInt(maxTokens?.value),
+    temperature: parseInt(temperature?.value),
+    top_p: parseInt(top_p?.value),
+  };
   const result = await sendRequest("text-curie-001", data);
   console.log(result);
   displayNewResult(promptInput?.value, getResponseText(result.choices));

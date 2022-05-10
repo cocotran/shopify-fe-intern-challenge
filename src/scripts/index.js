@@ -94,10 +94,10 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
         switch (_a.label) {
             case 0:
                 data = {
-                    "prompt": promptInput === null || promptInput === void 0 ? void 0 : promptInput.value,
-                    "max_tokens": parseInt(maxTokens === null || maxTokens === void 0 ? void 0 : maxTokens.value),
-                    "temperature": parseInt(temperature === null || temperature === void 0 ? void 0 : temperature.value),
-                    "top_p": parseInt(top_p === null || top_p === void 0 ? void 0 : top_p.value)
+                    prompt: promptInput === null || promptInput === void 0 ? void 0 : promptInput.value,
+                    max_tokens: parseInt(maxTokens === null || maxTokens === void 0 ? void 0 : maxTokens.value),
+                    temperature: parseInt(temperature === null || temperature === void 0 ? void 0 : temperature.value),
+                    top_p: parseInt(top_p === null || top_p === void 0 ? void 0 : top_p.value)
                 };
                 return [4 /*yield*/, sendRequest("text-curie-001", data)];
             case 1:
