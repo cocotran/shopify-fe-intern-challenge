@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fun with GPT-3</title>
-    <link rel="stylesheet" href="styles/index.css">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
     <h1>Hi, I am GPT-3</h1>
 
     <!-- Prompt field -->
     <label for="promt-input">Ask me something</label>
-    <textarea id="prompt-input" name="prompt-input" rows="3" cols="50" placeholder="write a song about birds"></textarea>
-    <button type="button">Submit</button>
+    <textarea
+      id="prompt-input"
+      name="prompt-input"
+      rows="3"
+      cols="50"
+      placeholder="write a song about birds"
+    ></textarea>
+    <button id="submitBtn" type="button">Submit</button>
     <!-- Prompt field -->
 
     <!-- Reponse field -->
     <h2>Response</h2>
-    <div style="border: 1px solid blue;">
-        <h6>Prompt:</h6><span>sample prompt</span>
-        <p>sample response long longlonglonglonglonglong longlonglong long long long</p>
+    <div id="responseContainer">
+        <div style="border: 1px solid blue">
+            <h5>sample prompt</h5>
+            <p>
+                sample response long longlonglonglonglonglong longlonglong long long
+                long
+            </p>
+        </div>
     </div>
     <!-- Reponse field -->
 
-    <script src="scripts/js/index.js"></script>
-</body>
+    <script src="scripts/index.js"></script>
+  </body>
 </html>
