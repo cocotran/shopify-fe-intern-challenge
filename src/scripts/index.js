@@ -38,7 +38,7 @@ var _this = this;
 // ============= Constants, helpers =================
 var BASE_URL = "";
 function htmlToElement(htmlString) {
-    var template = document.createElement('template');
+    var template = document.createElement("template");
     htmlString = htmlString.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = htmlString;
     return template.content.firstChild;
@@ -82,5 +82,5 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
     });
 }); };
 // ============= Event handler bindings =================
-submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener('click', onSubmitBtn);
+submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener("click", onSubmitBtn);
 // ============= Initial setup =================

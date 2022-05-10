@@ -8,10 +8,10 @@ interface Result {
 const BASE_URL: string = "";
 
 function htmlToElement(htmlString: string) {
-    var template = document.createElement('template');
-    htmlString = htmlString.trim(); // Never return a text node of whitespace as the result
-    template.innerHTML = htmlString;
-    return template.content.firstChild;
+  var template = document.createElement("template");
+  htmlString = htmlString.trim(); // Never return a text node of whitespace as the result
+  template.innerHTML = htmlString;
+  return template.content.firstChild;
 }
 
 const sendRequest = async (data: any) => {
@@ -37,25 +37,25 @@ const submitBtn = document.getElementById("submitBtn");
 
 // ============= DOM update functions =================
 const displayNewResult = (prompt: string, response: string) => {
-    const newResult = `
+  const newResult = `
         <div style="border: 1px solid blue">
             <h5>${prompt}</h5>
             <p>
                 ${response}
             </p>
         </div>
-    `
-    if (htmlToElement(newResult))
-        responseContainer?.appendChild(htmlToElement(newResult) as ChildNode);
-}
+    `;
+  if (htmlToElement(newResult))
+    responseContainer?.appendChild(htmlToElement(newResult) as ChildNode);
+};
 
 // ============= Event handlers =================
 const onSubmitBtn = async () => {
-    console.log("Here");
-    displayNewResult("test prompt", "testtttt response");
+  console.log("Here");
+  displayNewResult("test prompt", "testtttt response");
 };
 
 // ============= Event handler bindings =================
-submitBtn?.addEventListener('click', onSubmitBtn);
+submitBtn?.addEventListener("click", onSubmitBtn);
 
 // ============= Initial setup =================
