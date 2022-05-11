@@ -89,6 +89,17 @@ var getAllAvailableEngines = function () { return __awaiter(_this, void 0, void 
 // ============= Application state =================
 var results = [];
 // ============= State functions =================
+var saveResult = function (prompt, response) {
+    if (typeof Storage !== "undefined") {
+        var results_1 = JSON.parse(localStorage.getItem("results") || "[]");
+        console.log(results_1);
+        results_1 === null || results_1 === void 0 ? void 0 : results_1.push({ prompt: prompt, response: response });
+        localStorage.setItem("results", JSON.stringify(results_1));
+    }
+};
+var getAllResults = function () {
+    return JSON.parse(localStorage.getItem("results"));
+};
 // ============= DOM node references =================
 var responseContainer = document.getElementById("responseContainer");
 var submitBtn = document.getElementById("submitBtn");
@@ -103,11 +114,32 @@ var displayNewResult = function (prompt, response) {
     if (htmlToElement(newResult))
         responseContainer === null || responseContainer === void 0 ? void 0 : responseContainer.insertBefore(htmlToElement(newResult), responseContainer.firstChild);
 };
-var displayAllAvailableEngines = function (engine) {
+var displayAllResults = function () {
+    var allResults = getAllResults();
+    allResults === null || allResults === void 0 ? void 0 : allResults.forEach(function (result) {
+        displayNewResult(result.prompt, result.response);
+    });
+};
+var displayAvailableEngines = function (engine) {
     var newEngine = "<option value=\"".concat(engine.id, "\">").concat(engine.id, "</option>");
     if (htmlToElement(newEngine))
         engineSelected.appendChild(htmlToElement(newEngine));
 };
+var displayAllAvailableEngines = function () { return __awaiter(_this, void 0, void 0, function () {
+    var res;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, getAllAvailableEngines()];
+            case 1:
+                res = _b.sent();
+                (_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.forEach(function (engine) {
+                    displayAvailableEngines(engine);
+                });
+                return [2 /*return*/];
+        }
+    });
+}); };
 // ============= Event handlers =================
 var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function () {
     var data, result;
@@ -124,6 +156,7 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
             case 1:
                 result = _a.sent();
                 displayNewResult(promptInput === null || promptInput === void 0 ? void 0 : promptInput.value, getResponseText(result.choices));
+                saveResult(promptInput === null || promptInput === void 0 ? void 0 : promptInput.value, getResponseText(result.choices));
                 return [2 /*return*/];
         }
     });
@@ -131,17 +164,10 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
 // ============= Event handler bindings =================
 submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener("click", onSubmitBtn);
 window.addEventListener("load", function () { return __awaiter(_this, void 0, void 0, function () {
-    var res;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, getAllAvailableEngines()];
-            case 1:
-                res = _a.sent();
-                res === null || res === void 0 ? void 0 : res.data.forEach(function (engine) {
-                    displayAllAvailableEngines(engine);
-                });
-                return [2 /*return*/];
-        }
+        displayAllResults();
+        displayAllAvailableEngines();
+        return [2 /*return*/];
     });
 }); });
 // ============= Initial setup =================

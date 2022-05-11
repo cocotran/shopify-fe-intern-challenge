@@ -58,6 +58,20 @@ const getAllAvailableEngines = async () => {
 const results: Result[] = [];
 
 // ============= State functions =================
+const saveResult = (prompt: string, response: string) => {
+  if (typeof Storage !== "undefined") {
+    const results: Result[] = JSON.parse(
+      localStorage.getItem("results")! || "[]"
+    );
+    console.log(results);
+    results?.push({ prompt: prompt, response: response });
+    localStorage.setItem("results", JSON.stringify(results));
+  }
+};
+
+const getAllResults = (): Result[] => {
+  return JSON.parse(localStorage.getItem("results")!);
+};
 
 // ============= DOM node references =================
 const responseContainer = document.getElementById("responseContainer");
@@ -87,10 +101,24 @@ const displayNewResult = (prompt: string, response: string) => {
     );
 };
 
-const displayAllAvailableEngines = (engine: Engine) => {
+const displayAllResults = () => {
+  const allResults: Result[] = getAllResults();
+  allResults?.forEach((result: Result) => {
+    displayNewResult(result.prompt, result.response);
+  });
+};
+
+const displayAvailableEngines = (engine: Engine) => {
   const newEngine = `<option value="${engine.id}">${engine.id}</option>`;
   if (htmlToElement(newEngine))
     engineSelected.appendChild(htmlToElement(newEngine) as ChildNode);
+};
+
+const displayAllAvailableEngines = async () => {
+  const res = await getAllAvailableEngines();
+  res?.data?.forEach((engine: Engine) => {
+    displayAvailableEngines(engine);
+  });
 };
 // ============= Event handlers =================
 const onSubmitBtn = async () => {
@@ -102,16 +130,17 @@ const onSubmitBtn = async () => {
   };
   const result = await sendRequest(engineSelected?.value, data);
   displayNewResult(promptInput?.value, getResponseText(result.choices));
+  saveResult(promptInput?.value, getResponseText(result.choices));
+  //   displayNewResult("prompt", "Response");
+  //   saveResult("prompt", "Response");
 };
 
 // ============= Event handler bindings =================
 submitBtn?.addEventListener("click", onSubmitBtn);
 
 window.addEventListener("load", async () => {
-  const res = await getAllAvailableEngines();
-  res?.data.forEach((engine: Engine) => {
-    displayAllAvailableEngines(engine);
-  });
+  displayAllResults();
+  displayAllAvailableEngines();
 });
 
 // ============= Initial setup =================
