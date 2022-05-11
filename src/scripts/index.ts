@@ -4,8 +4,15 @@ interface Result {
   response: string;
 }
 
+interface Engine {
+  id: string;
+  object: string;
+  owner: string;
+  ready: boolean;
+}
+
 // ============= Constants, helpers =================
-const BASE_URL: string = "https://api.openai.com/v1/engines/";
+const BASE_URL: string = "https://api.openai.com/v1/engines";
 
 function htmlToElement(htmlString: string): ChildNode | null {
   var template = document.createElement("template");
@@ -15,7 +22,7 @@ function htmlToElement(htmlString: string): ChildNode | null {
 }
 
 const getFullUrl = (engine: string): string => {
-  return BASE_URL + engine + "/completions";
+  return BASE_URL + "/" + engine + "/completions";
 };
 
 const sendRequest = async (engine: string, data: any) => {
@@ -38,6 +45,15 @@ const getResponseText = (choices: any): string => {
   return response;
 };
 
+const getAllAvailableEngines = async () => {
+  const res = await fetch(BASE_URL, {
+    headers: {
+      Authorization: `Bearer`,
+    },
+  });
+  return res.json();
+};
+
 // ============= Application state =================
 const results: Result[] = [];
 
@@ -50,6 +66,9 @@ const maxTokens = <HTMLInputElement>document.getElementById("maxTokens");
 const temperature = <HTMLInputElement>document.getElementById("temperature");
 const top_p = <HTMLInputElement>document.getElementById("top_p");
 const promptInput = <HTMLInputElement>document.getElementById("promptInput");
+const engineSelected = <HTMLInputElement>(
+  document.getElementById("engineSelected")
+);
 
 // ============= DOM update functions =================
 const displayNewResult = (prompt: string, response: string) => {
@@ -68,6 +87,11 @@ const displayNewResult = (prompt: string, response: string) => {
     );
 };
 
+const displayAllAvailableEngines = (engine: Engine) => {
+  const newEngine = `<option value="${engine.id}">${engine.id}</option>`;
+  if (htmlToElement(newEngine))
+    engineSelected.appendChild(htmlToElement(newEngine) as ChildNode);
+};
 // ============= Event handlers =================
 const onSubmitBtn = async () => {
   const data = {
@@ -76,12 +100,18 @@ const onSubmitBtn = async () => {
     temperature: parseInt(temperature?.value),
     top_p: parseInt(top_p?.value),
   };
-  const result = await sendRequest("text-curie-001", data);
-  console.log(result);
+  const result = await sendRequest(engineSelected?.value, data);
   displayNewResult(promptInput?.value, getResponseText(result.choices));
 };
 
 // ============= Event handler bindings =================
 submitBtn?.addEventListener("click", onSubmitBtn);
+
+window.addEventListener("load", async () => {
+  const res = await getAllAvailableEngines();
+  res?.data.forEach((engine: Engine) => {
+    displayAllAvailableEngines(engine);
+  });
+});
 
 // ============= Initial setup =================

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 // ============= Constants, helpers =================
-var BASE_URL = "https://api.openai.com/v1/engines/";
+var BASE_URL = "https://api.openai.com/v1/engines";
 function htmlToElement(htmlString) {
     var template = document.createElement("template");
     htmlString = htmlString.trim(); // Never return a text node of whitespace as the result
@@ -44,7 +44,7 @@ function htmlToElement(htmlString) {
     return template.content.firstChild;
 }
 var getFullUrl = function (engine) {
-    return BASE_URL + engine + "/completions";
+    return BASE_URL + "/" + engine + "/completions";
 };
 var sendRequest = function (engine, data) { return __awaiter(_this, void 0, void 0, function () {
     var res;
@@ -71,6 +71,21 @@ var getResponseText = function (choices) {
     });
     return response;
 };
+var getAllAvailableEngines = function () { return __awaiter(_this, void 0, void 0, function () {
+    var res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch(BASE_URL, {
+                    headers: {
+                        Authorization: "Bearer"
+                    }
+                })];
+            case 1:
+                res = _a.sent();
+                return [2 /*return*/, res.json()];
+        }
+    });
+}); };
 // ============= Application state =================
 var results = [];
 // ============= State functions =================
@@ -81,11 +96,17 @@ var maxTokens = document.getElementById("maxTokens");
 var temperature = document.getElementById("temperature");
 var top_p = document.getElementById("top_p");
 var promptInput = document.getElementById("promptInput");
+var engineSelected = (document.getElementById("engineSelected"));
 // ============= DOM update functions =================
 var displayNewResult = function (prompt, response) {
     var newResult = "\n        <div style=\"border: 1px solid blue\">\n            <h5>".concat(prompt, "</h5>\n            <p>\n                ").concat(response, "\n            </p>\n        </div>\n    ");
     if (htmlToElement(newResult))
         responseContainer === null || responseContainer === void 0 ? void 0 : responseContainer.insertBefore(htmlToElement(newResult), responseContainer.firstChild);
+};
+var displayAllAvailableEngines = function (engine) {
+    var newEngine = "<option value=\"".concat(engine.id, "\">").concat(engine.id, "</option>");
+    if (htmlToElement(newEngine))
+        engineSelected.appendChild(htmlToElement(newEngine));
 };
 // ============= Event handlers =================
 var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function () {
@@ -99,10 +120,9 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
                     temperature: parseInt(temperature === null || temperature === void 0 ? void 0 : temperature.value),
                     top_p: parseInt(top_p === null || top_p === void 0 ? void 0 : top_p.value)
                 };
-                return [4 /*yield*/, sendRequest("text-curie-001", data)];
+                return [4 /*yield*/, sendRequest(engineSelected === null || engineSelected === void 0 ? void 0 : engineSelected.value, data)];
             case 1:
                 result = _a.sent();
-                console.log(result);
                 displayNewResult(promptInput === null || promptInput === void 0 ? void 0 : promptInput.value, getResponseText(result.choices));
                 return [2 /*return*/];
         }
@@ -110,4 +130,18 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
 }); };
 // ============= Event handler bindings =================
 submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener("click", onSubmitBtn);
+window.addEventListener("load", function () { return __awaiter(_this, void 0, void 0, function () {
+    var res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, getAllAvailableEngines()];
+            case 1:
+                res = _a.sent();
+                res === null || res === void 0 ? void 0 : res.data.forEach(function (engine) {
+                    displayAllAvailableEngines(engine);
+                });
+                return [2 /*return*/];
+        }
+    });
+}); });
 // ============= Initial setup =================
