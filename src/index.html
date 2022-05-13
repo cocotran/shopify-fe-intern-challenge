@@ -5,71 +5,96 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fun with GPT-3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles/index.css" />
   </head>
   <body>
     <h1>Hi, I am GPT-3</h1>
 
     <!-- Settings field -->
-    <label for="cars">Choose a car:</label>
+    <div class="settings-field">
+      <div>
+        <label for="cars">Choose an engine:</label>
+        <select name="engine" id="engineSelected">
+          <option value="text-curie-001">text-curie-001</option>
+        </select>
+      </div>
 
-    <select name="engine" id="engineSelected">
-      <option value="text-curie-001">text-curie-001</option>
-    </select>
+      <div>
+        <label for="maxTokens">Max tokens:</label>
+        <input
+          type="number"
+          id="maxTokens"
+          name="maxTokens"
+          required
+          min="0"
+          max="2048"
+          value="16"
+        />
+      </div>
 
-    <label for="maxTokens">Max tokens:</label>
-    <input
-      type="number"
-      id="maxTokens"
-      name="maxTokens"
-      required
-      min="0"
-      max="2048"
-      value="16"
-    />
+      <div>
+        <label for="temperature">Temperature:</label>
+        <input
+          type="number"
+          id="temperature"
+          name="temperature"
+          required
+          min="0"
+          max="1"
+          step="0.1"
+          value="1"
+        />
+      </div>
 
-    <label for="temperature">Temperature:</label>
-    <input
-      type="number"
-      id="temperature"
-      name="temperature"
-      required
-      min="0"
-      max="1"
-      step="0.1"
-      value="1"
-    />
-
-    <label for="top_p">Top p:</label>
-    <input
-      type="number"
-      id="top_p"
-      name="top_p"
-      required
-      min="0"
-      max="1"
-      step="0.1"
-      value="1"
-    />
+      <div>
+        <label for="top_p">Top p:</label>
+        <input
+          type="number"
+          id="top_p"
+          name="top_p"
+          required
+          min="0"
+          max="1"
+          step="0.1"
+          value="1"
+        />
+      </div>
+    </div>
     <!-- Settings field -->
 
     <!-- Prompt field -->
-    <label for="promptInput">Ask me something</label>
-    <textarea
-      id="promptInput"
-      name="promptInput"
-      rows="3"
-      cols="50"
-      placeholder="write a song about birds"
-    ></textarea>
+    <label for="promptInput"
+      >Tell me what's on your mind, then click submit</label
+    >
+    <div class="prompt-container">
+      <div class="prompt-start">></div>
+      <textarea
+        id="promptInput"
+        name="promptInput"
+        rows="1"
+        placeholder="e.g. write a song about birds"
+      ></textarea>
+    </div>
     <button id="submitBtn" type="button">Submit</button>
     <!-- Prompt field -->
 
     <!-- Reponse field -->
-    <h2>Response</h2>
     <div id="responseContainer">
-      <div style="border: 1px solid blue">
-        <h5>sample prompt</h5>
+      <div class="result">
+        <p>> Test prompt</p>
+        <p>
+          sample response long longlonglonglonglonglong longlonglong long long
+          long
+        </p>
+      </div>
+      <div class="result">
+        <p>> Test prompt</p>
         <p>
           sample response long longlonglonglonglonglong longlonglong long long
           long

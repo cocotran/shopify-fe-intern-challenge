@@ -1,0 +1,81 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: black;
+  --tw-text-opacity: 1;
+  color: rgba(249, 250, 251, var(--tw-text-opacity));
+  padding-top: 3rem;
+  padding-left: 12rem;
+  padding-right: 12rem;
+}
+
+.settings-field {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+input,
+select {
+  margin-left: 1rem;
+  padding: 5px 8px;
+  display: inline-block;
+  border: 1px solid rgba(55, 65, 81, 1);
+  box-sizing: border-box;
+  background-color: rgba(17, 24, 39, 1);
+  color: rgba(249, 250, 251, 1);
+}
+
+#engineSelected {
+  width: 12rem;
+}
+
+textarea {
+  width: 100%;
+  margin-left: 0.5rem;
+  display: block;
+  padding: 5px 8px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  background-color: black;
+  color: rgba(249, 250, 251, 1);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.prompt-container {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0rem;
+}
+
+.prompt-start {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+#submitBtn {
+  padding: 5px 8px;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  cursor: pointer;
+  background-color: rgba(17, 24, 39, 1);
+  color: rgba(249, 250, 251, 1);
+  border: 1px solid rgba(55, 65, 81, 1);
+}
+
+#submitBtn:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(75, 85, 99, var(--tw-bg-opacity));
+}
+
+#responseContainer {
+  margin-top: 2rem;
+}
+
+.result {
+  border-top: 1px solid gray;
+  padding: 1.5rem 0rem;
+}
