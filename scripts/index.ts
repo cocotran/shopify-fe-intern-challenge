@@ -30,7 +30,7 @@ const sendRequest = async (engine: string, data: any) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_SECRET}`,
+      Authorization: `Bearer ${OPENAI_SECRET}`,
     },
     body: JSON.stringify(data),
   });
@@ -48,7 +48,7 @@ const getResponseText = (choices: any): string => {
 const getAllAvailableEngines = async () => {
   const res = await fetch(BASE_URL, {
     headers: {
-      Authorization: `Bearer ${process.env.OPENAI_SECRET}`,
+      Authorization: `Bearer ${OPENAI_SECRET}`,
     },
   });
   return res.json();
