@@ -54,7 +54,7 @@ var sendRequest = function (engine, data) { return __awaiter(_this, void 0, void
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer"
+                        Authorization: "Bearer ".concat(process.env.OPENAI_SECRET)
                     },
                     body: JSON.stringify(data)
                 })];
@@ -77,7 +77,7 @@ var getAllAvailableEngines = function () { return __awaiter(_this, void 0, void 
         switch (_a.label) {
             case 0: return [4 /*yield*/, fetch(BASE_URL, {
                     headers: {
-                        Authorization: "Bearer"
+                        Authorization: "Bearer ".concat(process.env.OPENAI_SECRET)
                     }
                 })];
             case 1:
