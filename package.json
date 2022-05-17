@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
-    "lint": "prettier --write src/scripts/index.ts src/index.html src/styles/"
+    "lint": "prettier --write scripts/index.ts index.html styles/",
+    "watch-tsc": "tsc scripts/index.ts --watch"
   },
   "repository": {
     "type": "git",
