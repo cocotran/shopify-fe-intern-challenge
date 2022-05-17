@@ -75,7 +75,7 @@ const getAllResults = (): Result[] => {
 
 // ============= DOM node references =================
 const responseContainer = document.getElementById("responseContainer");
-const submitBtn = document.getElementById("submitBtn");
+const submitBtn = <HTMLInputElement>document.getElementById("submitBtn");
 const maxTokens = <HTMLInputElement>document.getElementById("maxTokens");
 const temperature = <HTMLInputElement>document.getElementById("temperature");
 const top_p = <HTMLInputElement>document.getElementById("top_p");
@@ -83,15 +83,15 @@ const promptInput = <HTMLInputElement>document.getElementById("promptInput");
 const engineSelected = <HTMLInputElement>(
   document.getElementById("engineSelected")
 );
-
+const loadingIcon = document.getElementById("loadingIcon");
 // ============= DOM update functions =================
 const displayNewResult = (prompt: string, response: string) => {
   const newResult = `
-        <div style="border: 1px solid blue">
-            <h5>${prompt}</h5>
-            <p>
-                ${response}
-            </p>
+        <div class="result">
+          <p>> ${prompt}</p>
+          <p>
+            ${response}
+          </p>
         </div>
     `;
   if (htmlToElement(newResult))
@@ -122,6 +122,8 @@ const displayAllAvailableEngines = async () => {
 };
 // ============= Event handlers =================
 const onSubmitBtn = async () => {
+  submitBtn.classList.add("disable-btn");
+  loadingIcon!.style.visibility = "visible";
   const data = {
     prompt: promptInput?.value,
     max_tokens: parseInt(maxTokens?.value),
@@ -131,8 +133,8 @@ const onSubmitBtn = async () => {
   const result = await sendRequest(engineSelected?.value, data);
   displayNewResult(promptInput?.value, getResponseText(result.choices));
   saveResult(promptInput?.value, getResponseText(result.choices));
-  //   displayNewResult("prompt", "Response");
-  //   saveResult("prompt", "Response");
+  submitBtn.classList.remove("disable-btn");
+  loadingIcon!.style.visibility = "hidden";
 };
 
 // ============= Event handler bindings =================

@@ -108,9 +108,10 @@ var temperature = document.getElementById("temperature");
 var top_p = document.getElementById("top_p");
 var promptInput = document.getElementById("promptInput");
 var engineSelected = (document.getElementById("engineSelected"));
+var loadingIcon = (document.getElementById("loadingIcon"));
 // ============= DOM update functions =================
 var displayNewResult = function (prompt, response) {
-    var newResult = "\n        <div style=\"border: 1px solid blue\">\n            <h5>".concat(prompt, "</h5>\n            <p>\n                ").concat(response, "\n            </p>\n        </div>\n    ");
+    var newResult = "\n        <div class=\"result\">\n          <p>> ".concat(prompt, "</p>\n          <p>\n            ").concat(response, "\n          </p>\n        </div>\n    ");
     if (htmlToElement(newResult))
         responseContainer === null || responseContainer === void 0 ? void 0 : responseContainer.insertBefore(htmlToElement(newResult), responseContainer.firstChild);
 };
@@ -146,6 +147,8 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                submitBtn.classList.add("disable-btn");
+                loadingIcon.style.visibility = "visible";
                 data = {
                     prompt: promptInput === null || promptInput === void 0 ? void 0 : promptInput.value,
                     max_tokens: parseInt(maxTokens === null || maxTokens === void 0 ? void 0 : maxTokens.value),
@@ -157,6 +160,8 @@ var onSubmitBtn = function () { return __awaiter(_this, void 0, void 0, function
                 result = _a.sent();
                 displayNewResult(promptInput === null || promptInput === void 0 ? void 0 : promptInput.value, getResponseText(result.choices));
                 saveResult(promptInput === null || promptInput === void 0 ? void 0 : promptInput.value, getResponseText(result.choices));
+                submitBtn.classList.remove("disable-btn");
+                loadingIcon.style.visibility = "hidden";
                 return [2 /*return*/];
         }
     });
